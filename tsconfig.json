@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "lib": ["ESNext"],
+    "target": "ES2021",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "declaration": true,
+    "importHelpers": true,
+    "inlineSources": true,
+    "newLine": "lf",
+    "noEmitHelpers": true,
+    "outDir": "dist",
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "downlevelIteration": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules"]
+}

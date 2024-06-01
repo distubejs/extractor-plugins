@@ -1,0 +1,77 @@
+{
+  "album": {
+    "album_type": "single",
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/3FwYnbtGNt8hJfjNuOfpeG"
+        },
+        "href": "https://api.spotify.com/v1/artists/3FwYnbtGNt8hJfjNuOfpeG",
+        "id": "3FwYnbtGNt8hJfjNuOfpeG",
+        "name": "Hà Anh Tuấn",
+        "type": "artist",
+        "uri": "spotify:artist:3FwYnbtGNt8hJfjNuOfpeG"
+      }
+    ],
+    "available_markets": [],
+    "external_urls": {
+      "spotify": "https://open.spotify.com/album/2abWPWzlhV9ROpN6EggZPR"
+    },
+    "href": "https://api.spotify.com/v1/albums/2abWPWzlhV9ROpN6EggZPR",
+    "id": "2abWPWzlhV9ROpN6EggZPR",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab67616d0000b273d12312aa0e25b7ddb9eadbd9",
+        "width": 640
+      },
+      {
+        "height": 300,
+        "url": "https://i.scdn.co/image/ab67616d00001e02d12312aa0e25b7ddb9eadbd9",
+        "width": 300
+      },
+      {
+        "height": 64,
+        "url": "https://i.scdn.co/image/ab67616d00004851d12312aa0e25b7ddb9eadbd9",
+        "width": 64
+      }
+    ],
+    "name": "Tháng Mấy Em Nhớ Anh?",
+    "release_date": "2018-03-01",
+    "release_date_precision": "day",
+    "total_tracks": 1,
+    "type": "album",
+    "uri": "spotify:album:2abWPWzlhV9ROpN6EggZPR"
+  },
+  "artists": [
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/3FwYnbtGNt8hJfjNuOfpeG"
+      },
+      "href": "https://api.spotify.com/v1/artists/3FwYnbtGNt8hJfjNuOfpeG",
+      "id": "3FwYnbtGNt8hJfjNuOfpeG",
+      "name": "Hà Anh Tuấn",
+      "type": "artist",
+      "uri": "spotify:artist:3FwYnbtGNt8hJfjNuOfpeG"
+    }
+  ],
+  "available_markets": [],
+  "disc_number": 1,
+  "duration_ms": 300000,
+  "explicit": false,
+  "external_ids": {
+    "isrc": "VNA0M1913243"
+  },
+  "external_urls": {
+    "spotify": "https://open.spotify.com/track/6Fbsn9471Xd0vVsMWwhePh"
+  },
+  "href": "https://api.spotify.com/v1/tracks/6Fbsn9471Xd0vVsMWwhePh",
+  "id": "6Fbsn9471Xd0vVsMWwhePh",
+  "is_local": false,
+  "name": "Tháng Mấy Em Nhớ Anh?",
+  "popularity": 0,
+  "preview_url": null,
+  "track_number": 1,
+  "type": "track",
+  "uri": "spotify:track:6Fbsn9471Xd0vVsMWwhePh"
+}
