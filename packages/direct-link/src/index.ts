@@ -1,6 +1,5 @@
 import { request } from "undici";
-import { PlayableExtractorPlugin, Song } from "distube";
-import type { GuildMember } from "discord.js";
+import { DisTubeError, PlayableExtractorPlugin, type ResolveOptions, Song } from "distube";
 
 export class DirectLinkPlugin extends PlayableExtractorPlugin {
   override async validate(url: string) {
@@ -14,7 +13,7 @@ export class DirectLinkPlugin extends PlayableExtractorPlugin {
     return false;
   }
 
-  resolve<T>(url: string, options: { member?: GuildMember; metadata?: T } = {}): Song<T> {
+  resolve<T>(url: string, options: ResolveOptions<T> = {}): Song<T> {
     const u = new URL(url);
     return new Song(
       { name: u.pathname.split("/").pop() || u.href, url, source: "direct_link", playFromSource: true, plugin: this },
@@ -23,7 +22,10 @@ export class DirectLinkPlugin extends PlayableExtractorPlugin {
   }
 
   getStreamURL(song: Song) {
-    return song.url!;
+    if (!song.url) {
+      throw new DisTubeError("DIRECT_LINK_PLUGIN_INVALID_SONG", "Cannot get stream url from invalid song.");
+    }
+    return song.url;
   }
 
   getRelatedSongs() {

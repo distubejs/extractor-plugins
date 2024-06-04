@@ -1,6 +1,5 @@
 import { API } from "./API";
-import { DisTubeError, InfoExtractorPlugin, Playlist, Song, checkInvalidKey } from "distube";
-import type { GuildMember } from "discord.js";
+import { DisTubeError, InfoExtractorPlugin, Playlist, type ResolveOptions, Song, checkInvalidKey } from "distube";
 
 export type SpotifyPluginOptions = {
   api?: {
@@ -55,10 +54,7 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
     }
   }
 
-  async resolve<T>(
-    url: string,
-    options: { member?: GuildMember | undefined; metadata?: T | undefined },
-  ): Promise<Song<T> | Playlist<T>> {
+  async resolve<T>(url: string, options: ResolveOptions<T>): Promise<Song<T> | Playlist<T>> {
     const data = await this.api.getData(url);
     if (data.type === "track") {
       return new Song(

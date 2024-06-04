@@ -36,10 +36,10 @@ jobs:
           echo "package=$(echo ${{ github.event.release.tag_name }} | sed 's/.*@distube\/\(.*\)@\(.*\)/\1/g')" >> $GITHUB_OUTPUT
           echo "version=$(echo ${{ github.event.release.tag_name }} | sed 's/.*@distube\/.*@\(.*\)/\1/g')" >> $GITHUB_OUTPUT
 
-      # pnpm deprecate @distube/${{ steps.parsed.outputs.package }}@"< ${{ steps.parsed.outputs.version }}" "This version is deprecated, please upgrade to the latest version."
       - name: Publish
         run: |
           pnpm publish --filter "@distube/${{ steps.parsed.outputs.package }}" --access public --no-git-checks
+          pnpm deprecate @distube/${{ steps.parsed.outputs.package }}@"< ${{ steps.parsed.outputs.version }}" "This version is deprecated, please upgrade to the latest version."
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
           NPM_CONFIG_PROVENANCE: true

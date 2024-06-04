@@ -1,18 +1,16 @@
 {
-  "name": "@distube/direct-link",
-  "version": "0.0.0",
+  "name": "@distube/yt-dlp",
+  "version": "2.0.0",
   "author": "Skick",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/distubejs/extractor-plugins.git"
   },
   "main": "./dist/index.js",
-  "dependencies": {
-    "distube": "^5.0.0",
-    "undici": "^6.18.2"
-  },
   "devDependencies": {
+    "@types/node": "^20.14.1",
     "discord.js": "^14.15.3",
+    "distube": "^5.0.0",
     "eslint": "^8.57.0",
     "eslint-config-distube": "^1.7.0",
     "prettier": "^3.3.0",
@@ -24,20 +22,19 @@
   "bugs": {
     "url": "https://github.com/distubejs/extractor-plugins/issues"
   },
-  "description": "A DisTube playable extractor plugin for supporting direct links.",
+  "description": "A DisTube extractor plugin.",
   "directories": {
     "lib": "src"
   },
   "files": [
-    "dist"
+    "dist",
+    "script"
   ],
   "funding": "https://github.com/skick1234/DisTube?sponsor",
-  "homepage": "https://github.com/distubejs/extractor-plugins/tree/main/packages/direct-link#readme",
+  "homepage": "https://github.com/distubejs/extractor-plugins/tree/main/packages/yt-dlp#readme",
   "keywords": [
     "distube",
     "plugin",
-    "direct",
-    "link",
     "discord",
     "music"
   ],
@@ -58,11 +55,16 @@
     "format": "prettier --write \"**/*.{js,ts,json,yml,yaml,md}\"",
     "lint": "eslint .",
     "build": "tsup",
-    "type": "tsc --noEmit"
+    "type": "tsc --noEmit",
+    "postinstall": "node script/download.js"
   },
   "typings": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "dependencies": {
+    "dargs": "^7.0.0",
+    "undici": "^6.18.2"
   }
 }

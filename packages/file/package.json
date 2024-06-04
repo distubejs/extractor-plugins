@@ -1,5 +1,5 @@
 {
-  "name": "@distube/template",
+  "name": "@distube/file",
   "version": "0.0.0",
   "author": "Skick",
   "repository": {
@@ -22,15 +22,15 @@
   "bugs": {
     "url": "https://github.com/distubejs/extractor-plugins/issues"
   },
-  "description": "A DisTube extractor plugin for supporting direct links.",
+  "description": "A DisTube playable extractor plugin for supporting local files.",
   "directories": {
     "lib": "src"
   },
   "files": [
     "dist"
   ],
-  "funding": "https://github.com/skick1234/DisTube?sponsor=1",
-  "homepage": "https://github.com/distubejs/extractor-plugins/blob/main/packages/#readme",
+  "funding": "https://github.com/skick1234/DisTube?sponsor",
+  "homepage": "hhttps://github.com/distubejs/extractor-plugins/tree/main/packages/file#readme",
   "keywords": [
     "distube",
     "plugin",

@@ -27,6 +27,40 @@ importers:
         specifier: ^1.13.3
         version: 1.13.3
 
+  packages/deezer:
+    dependencies:
+      undici:
+        specifier: ^6.18.2
+        version: 6.18.2
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.1
+        version: 20.14.1
+      discord.js:
+        specifier: ^14.15.3
+        version: 14.15.3
+      distube:
+        specifier: ^5.0.0
+        version: 5.0.0(@discordjs/voice@0.17.0)(discord.js@14.15.3)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      eslint-config-distube:
+        specifier: ^1.7.0
+        version: 1.7.0(eslint@8.57.0)(typescript@5.4.5)
+      prettier:
+        specifier: ^3.3.0
+        version: 3.3.0
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
+      tsup:
+        specifier: ^8.1.0
+        version: 8.1.0(postcss@8.4.38)(ts-node@10.9.2(@types/node@20.14.1)(typescript@5.4.5))(typescript@5.4.5)
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+
   packages/direct-link:
     dependencies:
       distube:
@@ -59,6 +93,40 @@ importers:
         version: 5.4.5
 
   packages/file:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.1
+        version: 20.14.1
+      discord.js:
+        specifier: ^14.15.3
+        version: 14.15.3
+      distube:
+        specifier: ^5.0.0
+        version: 5.0.0(@discordjs/voice@0.17.0)(discord.js@14.15.3)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      eslint-config-distube:
+        specifier: ^1.7.0
+        version: 1.7.0(eslint@8.57.0)(typescript@5.4.5)
+      prettier:
+        specifier: ^3.3.0
+        version: 3.3.0
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
+      tsup:
+        specifier: ^8.1.0
+        version: 8.1.0(postcss@8.4.38)(ts-node@10.9.2(@types/node@20.14.1)(typescript@5.4.5))(typescript@5.4.5)
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+
+  packages/soundcloud:
+    dependencies:
+      soundcloud.ts:
+        specifier: ^0.5.3
+        version: 0.5.3
     devDependencies:
       '@types/node':
         specifier: ^20.14.1
@@ -154,6 +222,43 @@ importers:
       '@distube/ytsr':
         specifier: ^2.0.0
         version: 2.0.0
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.1
+        version: 20.14.1
+      discord.js:
+        specifier: ^14.15.3
+        version: 14.15.3
+      distube:
+        specifier: ^5.0.0
+        version: 5.0.0(@discordjs/voice@0.17.0)(discord.js@14.15.3)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      eslint-config-distube:
+        specifier: ^1.7.0
+        version: 1.7.0(eslint@8.57.0)(typescript@5.4.5)
+      prettier:
+        specifier: ^3.3.0
+        version: 3.3.0
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
+      tsup:
+        specifier: ^8.1.0
+        version: 8.1.0(postcss@8.4.38)(ts-node@10.9.2(@types/node@20.14.1)(typescript@5.4.5))(typescript@5.4.5)
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+
+  packages/yt-dlp:
+    dependencies:
+      dargs:
+        specifier: ^7.0.0
+        version: 7.0.0
+      undici:
+        specifier: ^6.18.2
+        version: 6.18.2
     devDependencies:
       '@types/node':
         specifier: ^20.14.1
@@ -1153,6 +1258,10 @@ packages:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
 
+  dargs@7.0.0:
+    resolution: {integrity: sha512-2iy1EkLdlBzQGvbweYRFxmFath8+K7+AKB0TlhHWkNuH+TmovaMH/Wp7V7R4u7f4SnX3OgLsU9t1NI9ioDnUpg==}
+    engines: {node: '>=8'}
+
   debug@4.3.5:
     resolution: {integrity: sha512-pt0bNEmneDIvdL1Xsd9oDQ/wrQRkXDT4AUWlNZNPKvW5x/jyO9VFXkJUP07vQ2upmw5PlaITaPKc31jK13V+jg==}
     engines: {node: '>=6.0'}
@@ -1222,8 +1331,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  electron-to-chromium@1.4.788:
-    resolution: {integrity: sha512-ubp5+Ev/VV8KuRoWnfP2QF2Bg+O2ZFdb49DiiNbz2VmgkIqrnyYaqIOqj8A6K/3p1xV0QcU5hBQ1+BmB6ot1OA==}
+  electron-to-chromium@1.4.789:
+    resolution: {integrity: sha512-0VbyiaXoT++Fi2vHGo2ThOeS6X3vgRCWrjPeO2FeIAWL6ItiSJ9BqlH8LfCXe3X1IdcG+S0iLoNaxQWhfZoGzQ==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -2164,6 +2273,9 @@ packages:
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
+
+  soundcloud.ts@0.5.3:
+    resolution: {integrity: sha512-ZMH6gG5e7WqJrIYXTv14MNArPhx3WzfrL1Ij/2qBDW8mVbNJc8lxOQOc4kLvrfvDl5TkCdZa7zXOiwD6ESXq+g==}
 
   source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
@@ -3516,7 +3628,7 @@ snapshots:
   browserslist@4.23.0:
     dependencies:
       caniuse-lite: 1.0.30001627
-      electron-to-chromium: 1.4.788
+      electron-to-chromium: 1.4.789
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.0)
 
@@ -3642,6 +3754,8 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
+  dargs@7.0.0: {}
+
   debug@4.3.5:
     dependencies:
       ms: 2.1.2
@@ -3704,7 +3818,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  electron-to-chromium@1.4.788: {}
+  electron-to-chromium@1.4.789: {}
 
   emittery@0.13.1: {}
 
@@ -4806,6 +4920,10 @@ snapshots:
   sisteransi@1.0.5: {}
 
   slash@3.0.0: {}
+
+  soundcloud.ts@0.5.3:
+    dependencies:
+      undici: 6.18.2
 
   source-map-js@1.2.0:
     optional: true

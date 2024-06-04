@@ -1,6 +1,6 @@
 {
   "name": "@distube/spotify",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "author": "Skick",
   "repository": {
     "type": "git",
@@ -26,15 +26,15 @@
   "bugs": {
     "url": "https://github.com/distubejs/extractor-plugins/issues"
   },
-  "description": "A DisTube extractor plugin.",
+  "description": "A DisTube extractor plugin for supporting Spotify.",
   "directories": {
     "lib": "src"
   },
   "files": [
     "dist"
   ],
-  "funding": "https://github.com/skick1234/DisTube?sponsor=1",
-  "homepage": "https://github.com/distubejs/extractor-plugins/blob/main/packages/#readme",
+  "funding": "https://github.com/skick1234/DisTube?sponsor",
+  "homepage": "https://github.com/distubejs/extractor-plugins/tree/main/packages/soundcloud#readme",
   "keywords": [
     "distube",
     "plugin",

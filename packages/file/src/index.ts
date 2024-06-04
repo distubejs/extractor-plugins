@@ -1,6 +1,5 @@
-import { DisTubeError, PlayableExtractorPlugin, Song } from "distube";
 import { existsSync } from "fs";
-import type { GuildMember } from "discord.js";
+import { DisTubeError, PlayableExtractorPlugin, type ResolveOptions, Song } from "distube";
 
 export class FilePlugin extends PlayableExtractorPlugin {
   validate(url: string) {
@@ -11,7 +10,7 @@ export class FilePlugin extends PlayableExtractorPlugin {
     return false;
   }
 
-  resolve<T>(url: string, options: { member?: GuildMember; metadata?: T } = {}): Song<T> {
+  resolve<T>(url: string, options: ResolveOptions<T> = {}): Song<T> {
     const u = new URL(url);
     const name = u.pathname.split("/").pop() || u.href;
     const path = u.pathname.split("/").slice(1).join("/");
@@ -20,7 +19,10 @@ export class FilePlugin extends PlayableExtractorPlugin {
   }
 
   getStreamURL(song: Song) {
-    const u = new URL(song.url!);
+    if (!song.url) {
+      throw new DisTubeError("FILE_PLUGIN_INVALID_SONG", "Cannot get stream url from invalid song.");
+    }
+    const u = new URL(song.url);
     return u.pathname.split("/").slice(1).join("/");
   }
 

@@ -2,8 +2,7 @@ import ytpl from "@distube/ytpl";
 import ytsr from "@distube/ytsr";
 import ytdl from "@distube/ytdl-core";
 import { clone, parseNumber, toSecond } from "./util";
-import { DisTubeError, ExtractorPlugin, Playlist, Song, formatDuration } from "distube";
-import type { GuildMember } from "discord.js";
+import { DisTubeError, ExtractorPlugin, Playlist, type ResolveOptions, Song, formatDuration } from "distube";
 
 export type YouTubePluginOptions = {
   /**
@@ -46,7 +45,7 @@ export class YouTubePlugin extends ExtractorPlugin {
     if (ytdl.validateID(url) || ytpl.validateID(url)) return true;
     return false;
   }
-  async resolve<T>(url: string, options: { member?: GuildMember; metadata?: T }) {
+  async resolve<T>(url: string, options: ResolveOptions<T>) {
     if (ytdl.validateID(url)) {
       const info = await ytdl.getBasicInfo(url, this.#ytdlOptions);
       return new YouTubeSong(this, info, options);
@@ -62,7 +61,7 @@ export class YouTubePlugin extends ExtractorPlugin {
     if (!info.formats?.length) throw new DisTubeError("UNAVAILABLE_VIDEO");
     const err = playError(info.player_response, ["UNPLAYABLE", "LIVE_STREAM_OFFLINE", "LOGIN_REQUIRED"]);
     if (err) throw err;
-    const newSong = new YouTubeSong(this, info);
+    const newSong = new YouTubeSong(this, info, {});
     song.ageRestricted = newSong.ageRestricted;
     song.views = newSong.views;
     song.likes = newSong.likes;
@@ -81,7 +80,7 @@ export class YouTubePlugin extends ExtractorPlugin {
       r => new YouTubeRelatedSong(this, r),
     );
   }
-  async searchSong<T>(query: string, options: { member?: GuildMember; metadata?: T }): Promise<Song<T> | null> {
+  async searchSong<T>(query: string, options: ResolveOptions<T>): Promise<Song<T> | null> {
     const result = await this.search(query, { type: SearchResultType.VIDEO, limit: 1 });
     if (!result?.[0]) return null;
     const info = result[0];
@@ -151,7 +150,7 @@ export class YouTubeSong<T = unknown> extends Song<T> {
   chapters?: ytdl.Chapter[];
   storyboards?: ytdl.storyboard[];
   related?: ytdl.relatedVideo[];
-  constructor(plugin: YouTubePlugin, info: ytdl.videoInfo, options: { member?: GuildMember; metadata?: T } = {}) {
+  constructor(plugin: YouTubePlugin, info: ytdl.videoInfo, options: ResolveOptions<T>) {
     const i = info.videoDetails;
     super(
       {
@@ -186,7 +185,7 @@ export class YouTubeSong<T = unknown> extends Song<T> {
 }
 
 export class YouTubePlaylist<T> extends Playlist<T> {
-  constructor(plugin: YouTubePlugin, info: ytpl.result, options: { member?: GuildMember; metadata?: T }) {
+  constructor(plugin: YouTubePlugin, info: ytpl.result, options: ResolveOptions<T>) {
     const songs = info.items.map(
       i =>
         new Song({

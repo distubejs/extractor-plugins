@@ -7,7 +7,7 @@
     "format": "turbo format",
     "lint": "turbo lint",
     "test": "turbo test",
-    "update": "pnpm update --recursive --latest \"!eslint\""
+    "update": "pnpm update --recursive --latest \"!eslint\" \"!dargs\""
   },
   "devDependencies": {
     "@types/node": "^20.14.1",

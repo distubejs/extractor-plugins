@@ -1,18 +1,16 @@
 {
-  "name": "@distube/direct-link",
-  "version": "0.0.0",
+  "name": "@distube/soundcloud",
+  "version": "2.0.0",
   "author": "Skick",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/distubejs/extractor-plugins.git"
   },
   "main": "./dist/index.js",
-  "dependencies": {
-    "distube": "^5.0.0",
-    "undici": "^6.18.2"
-  },
   "devDependencies": {
+    "@types/node": "^20.14.1",
     "discord.js": "^14.15.3",
+    "distube": "^5.0.0",
     "eslint": "^8.57.0",
     "eslint-config-distube": "^1.7.0",
     "prettier": "^3.3.0",
@@ -24,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/distubejs/extractor-plugins/issues"
   },
-  "description": "A DisTube playable extractor plugin for supporting direct links.",
+  "description": "A DisTube extractor plugin for supporting SoundCloud.",
   "directories": {
     "lib": "src"
   },
@@ -32,12 +30,10 @@
     "dist"
   ],
   "funding": "https://github.com/skick1234/DisTube?sponsor",
-  "homepage": "https://github.com/distubejs/extractor-plugins/tree/main/packages/direct-link#readme",
+  "homepage": "https://github.com/distubejs/extractor-plugins/tree/main/packages/soundcloud#readme",
   "keywords": [
     "distube",
     "plugin",
-    "direct",
-    "link",
     "discord",
     "music"
   ],
@@ -64,5 +60,8 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "dependencies": {
+    "soundcloud.ts": "^0.5.3"
   }
 }
