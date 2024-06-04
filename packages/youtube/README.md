@@ -15,7 +15,7 @@
 
 # @distube/youtube
 
-A DisTube extractor plugin for supporting YouTube URL.
+A DisTube extractor plugin for supporting YouTube.
 
 [_What is an extractor plugin?_](https://github.com/skick1234/DisTube/wiki/Projects-Hub#plugins)
 

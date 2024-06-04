@@ -1,6 +1,6 @@
 {
   "name": "@distube/youtube",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Skick",
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
   "files": [
     "dist"
   ],
-  "funding": "https://github.com/skick1234/DisTube?sponsor=1",
+  "funding": "https://github.com/skick1234/DisTube?sponsor",
   "homepage": "https://github.com/distubejs/extractor-plugins/blob/main/packages/#readme",
   "keywords": [
     "distube",
