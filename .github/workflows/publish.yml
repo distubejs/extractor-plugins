@@ -27,9 +27,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile
 
-      - name: Build
-        run: pnpm run build
-
       - name: Parse tag name
         id: parsed
         run: |

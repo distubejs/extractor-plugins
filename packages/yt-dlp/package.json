@@ -13,6 +13,7 @@
     "distube": "^5.0.0",
     "eslint": "^8.57.0",
     "eslint-config-distube": "^1.7.0",
+    "is-ci": "^3.0.1",
     "prettier": "^3.3.0",
     "tslib": "^2.6.2",
     "tsup": "^8.1.0",
@@ -22,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/distubejs/extractor-plugins/issues"
   },
-  "description": "A DisTube extractor plugin.",
+  "description": "A DisTube playable extractor plugin using yt-dlp.",
   "directories": {
     "lib": "src"
   },
@@ -56,7 +57,7 @@
     "lint": "eslint .",
     "build": "tsup",
     "type": "tsc --noEmit",
-    "postinstall": "node script/download.js"
+    "postinstall": "is-ci || node script/download.js"
   },
   "typings": "./dist/index.d.ts",
   "publishConfig": {

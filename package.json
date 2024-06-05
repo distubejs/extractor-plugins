@@ -7,6 +7,7 @@
     "format": "turbo format",
     "lint": "turbo lint",
     "test": "turbo test",
+    "pnpm:devPreinstall": "pnpm run build",
     "update": "pnpm update --recursive --latest \"!eslint\" \"!dargs\""
   },
   "devDependencies": {

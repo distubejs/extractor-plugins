@@ -23,7 +23,7 @@
     },
     "test": {
       "dependsOn": ["^build"],
-      "inputs": ["__mocks__/**", "__tests__/**", "src/**", "jest.config.json", "package.json", "tsconfig.json"],
+      "inputs": ["__mocks__/**", "__tests__/**", "src/**", "package.json", "tsconfig.json"],
       "outputs": ["coverage/**"],
       "outputMode": "new-only"
     },
