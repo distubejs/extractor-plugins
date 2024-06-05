@@ -68,30 +68,13 @@ console.log(results);
 - `YoutubePluginOptions.cookies`: (Optional) YouTube cookies. See: [How to get YouTube cookies](https://github.com/skick1234/DisTube/wiki/YouTube-Cookies)
 - `YoutubePluginOptions.ytdlOptions`: (Optional) ytdl-core options.
 
-#### YoutubePlugin#search(query, [options]): Promise<SearchResultVideo[]|SearchResultPlaylist[]>
+#### YoutubePlugin#search(query, [options]): Promise<Song[]|SearchResultPlaylist[]>
 
 - `query`: Search query string
 - `options`: Search options
 - `options.type`: Type of results (`video` or `playlist`)
 - `options.limit`: Maximum number of results to return
 - `options.safeSearch`: Whether or not use safe search (YouTube restricted mode)
-
-### SearchResult
-
-#### SearchResultVideo
-
-- `id`: Video ID
-- `name`: Video title
-- `url`: Video URL
-- `duration`: Video duration
-- `thumbnail`: Video thumbnail URL
-- `isLive`: Whether or not the video is live
-- `views`: Video views
-- `duration`: Video duration
-- `formattedDuration`: Formatted video duration (`hh:mm:ss`, `mm:ss` or `Live`).
-- `uploader`: Video uploader
-- `uploader.name`: Video uploader channel name
-- `uploader.url`: Video uploader channel URL
 
 #### SearchResultPlaylist
 
