@@ -7,7 +7,6 @@
     "format": "turbo format",
     "lint": "turbo lint",
     "test": "turbo test",
-    "pnpm:devPreinstall": "pnpm run build",
     "update": "pnpm update --recursive --latest \"!eslint\" \"!dargs\""
   },
   "devDependencies": {
@@ -16,9 +15,10 @@
     "eslint-config-distube": "^1.7.0",
     "prettier": "^3.3.0",
     "tsup": "^8.1.0",
-    "turbo": "^1.13.3"
+    "turbo": "^2.0.1"
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "packageManager": "pnpm@9.1.4"
 }

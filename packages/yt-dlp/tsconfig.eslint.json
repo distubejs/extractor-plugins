@@ -3,6 +3,6 @@
   "compilerOptions": {
     "allowJs": true
   },
-  "include": ["*.ts", "*.js", "src/**/*.ts", "src/**/*.js", "__tests__", "__mocks__"],
+  "include": ["*.ts", "*.js", "src/**/*.ts", "src/**/*.js", "__tests__", "__mocks__", "script/**/*.js"],
   "exclude": ["node_modules"]
 }

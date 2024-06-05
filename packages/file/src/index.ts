@@ -13,7 +13,7 @@ export class FilePlugin extends PlayableExtractorPlugin {
   resolve<T>(url: string, options: ResolveOptions<T> = {}): Song<T> {
     const u = new URL(url);
     const name = u.pathname.split("/").pop() || u.href;
-    const path = u.pathname.split("/").slice(1).join("/");
+    const path = u.hostname + u.pathname;
     if (!existsSync(path)) throw new DisTubeError("FILE_NOT_FOUND", `File not found: ${path}`);
     return new Song({ name, url, source: "file", playFromSource: true, plugin: this }, options);
   }
@@ -22,8 +22,7 @@ export class FilePlugin extends PlayableExtractorPlugin {
     if (!song.url) {
       throw new DisTubeError("FILE_PLUGIN_INVALID_SONG", "Cannot get stream url from invalid song.");
     }
-    const u = new URL(song.url);
-    return u.pathname.split("/").slice(1).join("/");
+    return song.url;
   }
 
   getRelatedSongs() {

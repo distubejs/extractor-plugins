@@ -6,5 +6,14 @@
     "valid-jsdoc": "off",
     "jsdoc/check-tag-names": "off"
   },
-  "extends": "distube"
+  "extends": "distube",
+  "ignorePatterns": [
+    "**/node_modules/",
+    ".git/",
+    "**/dist/",
+    "**/template/",
+    "**/coverage/",
+    "**/storybook-static/",
+    "**/.next/"
+  ]
 }
