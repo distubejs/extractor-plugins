@@ -15,7 +15,9 @@
 
 # @distube/yt-dlp
 
-[yt-dlp](https://github.com/yt-dlp/yt-dlp) extractor plugin for [DisTube.js.org](https://distube.js.org).
+A DisTube playable extractor plugin using [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+
+[_What is a playable extractor plugin?_](https://github.com/skick1234/DisTube/wiki/Projects-Hub#plugins)
 
 # Feature
 
