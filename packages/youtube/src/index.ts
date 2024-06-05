@@ -2,7 +2,7 @@ import ytpl from "@distube/ytpl";
 import ytsr from "@distube/ytsr";
 import ytdl from "@distube/ytdl-core";
 import { clone, parseNumber, toSecond } from "./util";
-import { DisTubeError, ExtractorPlugin, Playlist, type ResolveOptions, Song, formatDuration } from "distube";
+import { DisTubeError, ExtractorPlugin, Playlist, type ResolveOptions, Song } from "distube";
 
 export type YouTubePluginOptions = {
   /**
@@ -42,16 +42,17 @@ export class YouTubePlugin extends ExtractorPlugin {
   }
 
   validate(url: string): boolean {
-    if (ytdl.validateID(url) || ytpl.validateID(url)) return true;
+    if (ytdl.validateURL(url) || ytpl.validateID(url)) return true;
     return false;
   }
   async resolve<T>(url: string, options: ResolveOptions<T>) {
-    if (ytdl.validateID(url)) {
-      const info = await ytdl.getBasicInfo(url, this.#ytdlOptions);
-      return new YouTubeSong(this, info, options);
-    } else if (ytpl.validateID(url)) {
+    if (ytpl.validateID(url)) {
       const info = await ytpl(url, { limit: Infinity, requestOptions: { headers: { cookie: this.ytCookie } } });
       return new YouTubePlaylist(this, info, options);
+    }
+    if (ytdl.validateURL(url)) {
+      const info = await ytdl.getBasicInfo(url, this.#ytdlOptions);
+      return new YouTubeSong(this, info, options);
     }
     throw new DisTubeError("CANNOT_RESOLVE_SONG", url);
   }
@@ -104,15 +105,15 @@ export class YouTubePlugin extends ExtractorPlugin {
   search(
     string: string,
     options?: { type?: SearchResultType.VIDEO; limit?: number; safeSearch?: boolean },
-  ): Promise<Array<SearchResultVideo>>;
+  ): Promise<YouTubeSearchResultSong[]>;
   search(
     string: string,
     options: { type: SearchResultType.PLAYLIST; limit?: number; safeSearch?: boolean },
-  ): Promise<Array<SearchResultPlaylist>>;
+  ): Promise<YouTubeSearchResultPlaylist[]>;
   search(
     string: string,
     options?: { type?: SearchResultType; limit?: number; safeSearch?: boolean },
-  ): Promise<Array<SearchResult>>;
+  ): Promise<YouTubeSearchResultSong[] | YouTubeSearchResultPlaylist[]>;
   /**
    * Search for a song.
    *
@@ -131,7 +132,7 @@ export class YouTubePlugin extends ExtractorPlugin {
       limit?: number;
       safeSearch?: boolean;
     } = {},
-  ): Promise<Array<SearchResult>> {
+  ): Promise<(YouTubeSearchResultSong | YouTubeSearchResultPlaylist)[]> {
     const { items } = await ytsr(query, {
       type: SearchResultType.VIDEO,
       limit: 10,
@@ -140,8 +141,8 @@ export class YouTubePlugin extends ExtractorPlugin {
       requestOptions: { headers: { cookie: this.ytCookie } },
     });
     return items.map(i => {
-      if (i.type === "video") return new SearchResultVideo(i);
-      return new SearchResultPlaylist(i);
+      if (i.type === "video") return new YouTubeSearchResultSong(this, i);
+      return new YouTubeSearchResultPlaylist(i);
     });
   }
 }
@@ -266,104 +267,65 @@ export enum SearchResultType {
   PLAYLIST = "playlist",
 }
 
-abstract class ISearchResult {
-  abstract type: SearchResultType;
-  /**
-   * YouTube video or playlist id
-   */
-  id: string;
-  /**
-   * Video or playlist title.
-   */
-  name: string;
-  /**
-   * Video or playlist URL.
-   */
-  url: string;
-  /**
-   * Video or playlist uploader
-   */
-  uploader: {
-    name?: string;
-    url?: string;
-  };
-
-  /**
-   * Create a search result
-   *
-   * @param info - ytsr result
-   */
-  constructor(info: ytsr.Video | ytsr.Playlist) {
-    this.id = info.id;
-    this.name = info.name;
-    this.url = info.url;
-    this.uploader = {
-      name: undefined,
-      url: undefined,
-    };
-  }
-}
-
 /**
  * A class representing a video search result.
  */
-export class SearchResultVideo extends ISearchResult {
-  /**
-   * Type of SearchResult
-   */
-  type: SearchResultType.VIDEO;
-  /**
-   * Video views count
-   */
-  views: number;
-  /**
-   * Indicates if the video is an active live.
-   */
-  isLive: boolean;
-  /**
-   * Video duration.
-   */
-  duration: number;
-  /**
-   * Formatted duration string `hh:mm:ss` or `mm:ss`.
-   */
-  formattedDuration: string;
-  /**
-   * Video thumbnail.
-   */
-  thumbnail: string;
-  constructor(info: ytsr.Video) {
-    super(info);
-    if (info.type !== "video") throw new DisTubeError("INVALID_TYPE", "video", info.type, "type");
-    this.type = SearchResultType.VIDEO;
-    this.views = info.views;
-    this.isLive = info.isLive;
-    this.duration = this.isLive ? 0 : toSecond(info.duration);
-    this.formattedDuration = this.isLive ? "Live" : formatDuration(this.duration);
-    this.thumbnail = info.thumbnail;
-    this.uploader = {
-      name: info.author?.name,
-      url: info.author?.url,
-    };
+export class YouTubeSearchResultSong extends Song {
+  constructor(plugin: YouTubePlugin, info: ytsr.Video) {
+    super({
+      plugin,
+      source: "youtube",
+      playFromSource: true,
+      id: info.id,
+      name: info.name,
+      url: `https://youtu.be/${info.id}`,
+      thumbnail: info.thumbnail,
+      isLive: info.isLive,
+      duration: toSecond(info.duration),
+      views: parseNumber(info.views),
+      uploader: {
+        name: info.author?.name,
+        url: info.author?.url,
+      },
+    });
   }
 }
 
 /**
  * A class representing a playlist search result.
  */
-export class SearchResultPlaylist extends ISearchResult {
+export class YouTubeSearchResultPlaylist {
   /**
-   * Type of SearchResult
+   * YouTube  playlist id
    */
-  type: SearchResultType.PLAYLIST;
+  id: string;
+  /**
+   * Playlist title.
+   */
+  name: string;
+  /**
+   * Playlist URL.
+   */
+  url: string;
+  /**
+   * Playlist owner
+   */
+  uploader: {
+    name?: string;
+    url?: string;
+  };
   /**
    * Number of videos in the playlist
    */
   length: number;
   constructor(info: ytsr.Playlist) {
-    super(info);
-    if (info.type !== "playlist") throw new DisTubeError("INVALID_TYPE", "playlist", info.type, "type");
-    this.type = SearchResultType.PLAYLIST;
+    this.id = info.id;
+    this.name = info.name;
+    this.url = `https://www.youtube.com/playlist?list=${info.id}`;
+    this.uploader = {
+      name: info.owner?.name,
+      url: info.owner?.url,
+    };
     this.length = info.length;
     this.uploader = {
       name: info.owner?.name,
@@ -371,8 +333,3 @@ export class SearchResultPlaylist extends ISearchResult {
     };
   }
 }
-
-/**
- * A video or playlist search result
- */
-export type SearchResult = SearchResultVideo | SearchResultPlaylist;
