@@ -91,6 +91,7 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
                 uploader: {
                   name: t.artists.map(a => a.name).join(", "),
                 },
+                url: `https://open.spotify.com/track/${t.id}`,
               },
               options,
             ),

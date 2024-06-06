@@ -15,13 +15,15 @@ type Track = {
   name: string;
   artists: { name: string }[];
   thumbnail?: string;
+  duration: number;
 };
 
 type EmbedList = {
   type: "album" | "playlist" | "artist";
   title: string;
   subtitle: string;
-  trackList: { title: string; subtitle: string }[];
+  uri: string;
+  trackList: { title: string; subtitle: string; uri: string; duration: number }[];
   coverArt?: {
     sources?: { url: string }[];
   };
@@ -32,7 +34,7 @@ type DataList = {
   name: string;
   thumbnail?: string;
   url: string;
-  tracks: Omit<Track, "id">[];
+  tracks: Track[];
 };
 
 type Album = DataList & { type: "album" };
@@ -51,6 +53,32 @@ export const apiError = (e: any) =>
       e?.statusCode ? `\nStatus code: ${e.statusCode}.` : ""
     }`,
   );
+
+type APITrackInfo = SpotifyApi.TrackObjectSimplified & { album: SpotifyApi.AlbumObjectSimplified };
+class APITrack implements Track {
+  type: "track";
+  id: string;
+  name: string;
+  artists: { name: string }[];
+  thumbnail?: string;
+  duration: number;
+  constructor(info: APITrackInfo) {
+    this.type = "track";
+    this.id = info.id;
+    this.name = info.name;
+    this.artists = info.artists;
+    this.thumbnail = info.album?.images?.[0]?.url;
+    this.duration = info.duration_ms;
+  }
+}
+
+const mergeAlbumTrack = (
+  album: SpotifyApi.AlbumObjectSimplified,
+  track: SpotifyApi.TrackObjectSimplified,
+): APITrackInfo => {
+  (<APITrackInfo>track).album = album;
+  return <APITrackInfo>track;
+};
 
 export class API {
   private _hasCredentials = false;
@@ -139,22 +167,26 @@ export class API {
       }
       try {
         const { body } = await WEB_API.getTrack(id);
-        return body;
+        return new APITrack(body);
       } catch (e) {
         throw apiError(e);
       }
     }
     if (!this._tokenAvailable) {
       const data = (await INFO.getData(url)) as EmbedList;
+      const thumbnail = data.coverArt?.sources?.[0]?.url;
       return {
         type,
         name: data.title,
-        thumbnail: data.coverArt?.sources?.[0]?.url,
+        thumbnail,
         url,
         tracks: data.trackList.map(i => ({
           type: "track",
+          id: this.parseUrl(i.uri).id,
           name: i.title,
           artists: [{ name: i.subtitle }],
+          duration: i.duration,
+          thumbnail,
         })),
       };
     }
@@ -164,9 +196,9 @@ export class API {
       return {
         type,
         name: body.name,
-        thumbnail: body.images?.sort((a, b) => (b.width || 0) - (a.width || 0))?.[0]?.url,
+        thumbnail: body.images?.[0]?.url,
         url: body.external_urls?.spotify,
-        tracks: (await this.#getTracks(body)).filter(t => t?.type === "track"),
+        tracks: (await this.#getTracks(body)).filter(t => t?.type === "track").map(t => new APITrack(t)),
       };
     } catch (e) {
       throw apiError(e);
@@ -175,13 +207,14 @@ export class API {
 
   async #getTracks(
     data: SpotifyApi.SingleAlbumResponse | SpotifyApi.SinglePlaylistResponse | SpotifyApi.SingleArtistResponse,
-  ): Promise<Track[]> {
+  ): Promise<APITrackInfo[]> {
     switch (data.type) {
       case "artist": {
         return (await WEB_API.getArtistTopTracks(data.id, this.topTracksCountry)).body.tracks;
       }
       case "album": {
-        return await this.#getPaginatedItems(data);
+        const tracks = await this.#getPaginatedItems(data);
+        return tracks.map(t => mergeAlbumTrack(data, t));
       }
       case "playlist": {
         return (await this.#getPaginatedItems(data)).map(i => i.track).filter(isTruthy);
