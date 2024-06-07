@@ -1,7 +1,7 @@
 import { download, json } from "./wrapper";
 import { DisTubeError, PlayableExtractorPlugin, Playlist, Song } from "distube";
 import type { DisTube, ResolveOptions } from "distube";
-import type { YtDlpOptions, YtDlpPlaylist } from "./type";
+import type { YtDlpOptions, YtDlpPlaylist, YtDlpVideo } from "./type";
 
 const isPlaylist = (i: any): i is YtDlpPlaylist => Array.isArray(i.entries);
 
@@ -78,24 +78,27 @@ export class YtDlpPlugin extends PlayableExtractorPlugin {
 }
 
 class YtDlpSong<T> extends Song<T> {
-  constructor(plugin: YtDlpPlugin, info: any, options: ResolveOptions<T> = {}) {
+  constructor(plugin: YtDlpPlugin, info: YtDlpVideo, options: ResolveOptions<T> = {}) {
     super(
       {
         plugin,
         source: info.extractor,
         playFromSource: true,
         id: info.id,
-        name: info.title,
-        url: info.url,
-        thumbnail: info.thumbnail,
-        duration: info.duration,
+        name: info.title || info.fulltitle,
+        url: info.webpage_url || info.original_url,
+        isLive: info.is_live,
+        thumbnail: info.thumbnail || info.thumbnails?.[0]?.url,
+        duration: info.is_live ? 0 : info.duration,
         uploader: {
           name: info.uploader,
           url: info.uploader_url,
         },
-        views: info.views,
+        views: info.view_count,
         likes: info.like_count,
+        dislikes: info.dislike_count,
         reposts: info.repost_count,
+        ageRestricted: Boolean(info.age_limit) && info.age_limit >= 18,
       },
       options,
     );
