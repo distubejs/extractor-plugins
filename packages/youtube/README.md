@@ -32,10 +32,10 @@ A DisTube extractor plugin for supporting YouTube.
 
 ```ts
 import { DisTube } from "distube";
-import { YoutubePlugin } from "@distube/youtube";
+import { YouTubePlugin } from "@distube/youtube";
 
 const distube = new DisTube(client, {
-  plugins: [new YoutubePlugin()],
+  plugins: [new YouTubePlugin()],
 });
 ```
 
@@ -43,9 +43,9 @@ const distube = new DisTube(client, {
 
 ```ts
 import { DisTube } from "distube";
-import { YoutubePlugin } from "@distube/youtube";
+import { YouTubePlugin } from "@distube/youtube";
 
-const youtubePlugin = new YoutubePlugin({
+const youtubePlugin = new YouTubePlugin({
   cookies: [
     // ...
   ],
@@ -61,14 +61,14 @@ console.log(results);
 
 ## Documentation
 
-### YoutubePlugin
+### YouTubePlugin
 
-#### YoutubePlugin([YouTubePluginOptions])
+#### YouTubePlugin([YouTubePluginOptions])
 
 - `YoutubePluginOptions.cookies`: (Optional) YouTube cookies. See: [How to get YouTube cookies](https://github.com/skick1234/DisTube/wiki/YouTube-Cookies)
 - `YoutubePluginOptions.ytdlOptions`: (Optional) ytdl-core options.
 
-#### YoutubePlugin#search(query, [options]): Promise<Song[]|SearchResultPlaylist[]>
+#### YouTubePlugin#search(query, [options]): Promise<Song[]|SearchResultPlaylist[]>
 
 - `query`: Search query string
 - `options`: Search options
