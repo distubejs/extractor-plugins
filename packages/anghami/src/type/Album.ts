@@ -1,0 +1,45 @@
+import type { Button } from "./Button";
+import type { Section } from "./Section";
+import type { WebMetas } from "./WebMetas";
+
+export interface AlbumResponse {
+  angtime: number;
+  status: string;
+  version: string;
+  webplayer: number;
+  nbrsongs: number;
+  songids: string[];
+  hexcolor: null;
+  id: string;
+  title: string;
+  coverArt: string;
+  artistID: string;
+  artistid: string;
+  artistname: string;
+  artist: string;
+  ArtistArt: string;
+  ArtistGender: number;
+  year: string;
+  likes: string;
+  religious: number;
+  keywords: string[];
+  is_premium_content: boolean;
+  language: number;
+  albumtype: string;
+  releasedate: Date;
+  release_date: Date;
+  verified: number;
+  is_podcast: boolean;
+  albumplays: number;
+  locked_content_partner_ids: any[];
+  isPodcast: number;
+  buttons: Button[];
+  following: number;
+  web_metas: WebMetas;
+  screenshot_share_enabled: number;
+  screenshot_share_prepend: string;
+  responsetype: string;
+  list_type: string;
+  liked: boolean;
+  sections: Section[];
+}
