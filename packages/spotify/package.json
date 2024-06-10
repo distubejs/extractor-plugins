@@ -1,7 +1,7 @@
 {
   "name": "@distube/spotify",
   "version": "2.0.1",
-  "author": "Skick",
+  "author": "Skick (https://github.com/skick1234)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/distubejs/extractor-plugins.git"

@@ -27,6 +27,40 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3
 
+  packages/anghami:
+    dependencies:
+      undici:
+        specifier: ^6.18.2
+        version: 6.18.2
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.2
+        version: 20.14.2
+      discord.js:
+        specifier: ^14.15.3
+        version: 14.15.3
+      distube:
+        specifier: ^5.0.1
+        version: 5.0.1(@discordjs/voice@0.17.0)(discord.js@14.15.3)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      eslint-config-distube:
+        specifier: ^1.7.0
+        version: 1.7.0(eslint@8.57.0)(typescript@5.4.5)
+      prettier:
+        specifier: ^3.3.1
+        version: 3.3.1
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
+      tsup:
+        specifier: ^8.1.0
+        version: 8.1.0(postcss@8.4.38)(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.4.5))(typescript@5.4.5)
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+
   packages/deezer:
     dependencies:
       undici:

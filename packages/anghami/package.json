@@ -1,7 +1,10 @@
 {
   "name": "@distube/anghami",
   "version": "0.1.0",
-  "author": "Skick",
+  "author": "Skick (https://github.com/skick1234)",
+  "contributors": [
+    "Lakhindar Pal (https://github.com/LakhindarPal)"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/distubejs/extractor-plugins.git"

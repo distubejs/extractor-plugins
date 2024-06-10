@@ -2,7 +2,7 @@ import ytpl from "@distube/ytpl";
 import ytsr from "@distube/ytsr";
 import ytdl from "@distube/ytdl-core";
 import { clone, parseNumber, toSecond } from "./util";
-import { DisTubeError, ExtractorPlugin, Playlist, type ResolveOptions, Song } from "distube";
+import { DisTubeError, ExtractorPlugin, Playlist, type ResolveOptions, Song, checkInvalidKey } from "distube";
 
 export type YouTubePluginOptions = {
   /**
@@ -21,21 +21,23 @@ const playError = require("@distube/ytdl-core/lib/utils").playError;
 export class YouTubePlugin extends ExtractorPlugin {
   #cookies?: ytdl.Cookie[];
   cookies?: ytdl.Cookie[];
-  ytdlOptions: ytdl.getInfoOptions;
+  #ytdlOptions: ytdl.getInfoOptions;
 
-  constructor(options?: YouTubePluginOptions) {
+  constructor(options: YouTubePluginOptions = {}) {
     super();
-    this.cookies = this.#cookies = options?.cookies ? clone(options.cookies) : undefined;
-    this.ytdlOptions = options?.ytdlOptions ? clone(options.ytdlOptions) : {};
-    this.ytdlOptions.agent = ytdl.createAgent(this.cookies);
+    checkInvalidKey(options, ["cookies", "ytdlOptions"], "YouTubePlugin");
+    this.cookies = this.#cookies = options.cookies ? clone(options.cookies) : undefined;
+    this.#ytdlOptions = options?.ytdlOptions ? clone(options.ytdlOptions) : {};
+    this.#ytdlOptions.agent = ytdl.createAgent(this.cookies);
   }
 
-  get #ytdlOptions(): ytdl.getInfoOptions {
-    if (this.cookies !== this.#cookies) this.ytdlOptions.agent = ytdl.createAgent((this.#cookies = this.cookies));
-    return this.ytdlOptions;
+  get ytdlOptions(): ytdl.getInfoOptions {
+    if (this.cookies !== this.#cookies) this.#ytdlOptions.agent = ytdl.createAgent((this.#cookies = this.cookies));
+    return this.#ytdlOptions;
   }
+
   get ytCookie(): string {
-    const agent = this.ytdlOptions.agent;
+    const agent = this.#ytdlOptions.agent;
     if (!agent) return "";
     const { jar } = agent;
     return jar.getCookieStringSync("https://www.youtube.com");
@@ -51,14 +53,14 @@ export class YouTubePlugin extends ExtractorPlugin {
       return new YouTubePlaylist(this, info, options);
     }
     if (ytdl.validateURL(url)) {
-      const info = await ytdl.getBasicInfo(url, this.#ytdlOptions);
+      const info = await ytdl.getBasicInfo(url, this.ytdlOptions);
       return new YouTubeSong(this, info, options);
     }
     throw new DisTubeError("CANNOT_RESOLVE_SONG", url);
   }
   async getStreamURL<T = unknown>(song: YouTubeSong<T>): Promise<string> {
     if (!song.url || !ytdl.validateURL(song.url)) throw new DisTubeError("CANNOT_RESOLVE_SONG", song);
-    const info = await ytdl.getInfo(song.url, this.#ytdlOptions);
+    const info = await ytdl.getInfo(song.url, this.ytdlOptions);
     if (!info.formats?.length) throw new DisTubeError("UNAVAILABLE_VIDEO");
     const err = playError(info.player_response, ["UNPLAYABLE", "LIVE_STREAM_OFFLINE", "LOGIN_REQUIRED"]);
     if (err) throw err;
@@ -77,7 +79,7 @@ export class YouTubePlugin extends ExtractorPlugin {
     return format.url;
   }
   async getRelatedSongs(song: YouTubeSong): Promise<Song[]> {
-    return (song.related ? song.related : (await ytdl.getBasicInfo(song.url!, this.#ytdlOptions)).related_videos).map(
+    return (song.related ? song.related : (await ytdl.getBasicInfo(song.url!, this.ytdlOptions)).related_videos).map(
       r => new YouTubeRelatedSong(this, r),
     );
   }
