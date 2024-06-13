@@ -16,7 +16,14 @@ export class DirectLinkPlugin extends PlayableExtractorPlugin {
   resolve<T>(url: string, options: ResolveOptions<T> = {}): Song<T> {
     const u = new URL(url);
     return new Song(
-      { name: u.pathname.split("/").pop() || u.href, url, source: "direct_link", playFromSource: true, plugin: this },
+      {
+        id: u.href,
+        name: u.pathname.split("/").pop() || u.href,
+        url,
+        source: "direct_link",
+        playFromSource: true,
+        plugin: this,
+      },
       options,
     );
   }

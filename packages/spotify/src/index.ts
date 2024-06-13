@@ -86,6 +86,7 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
               {
                 plugin: this,
                 source: "spotify",
+                id: t.id,
                 playFromSource: false,
                 name: t.name,
                 thumbnail: t.thumbnail,

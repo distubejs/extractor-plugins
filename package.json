@@ -6,6 +6,7 @@
     "build": "turbo build",
     "format": "turbo format",
     "lint": "turbo lint",
+    "type": "turbo type",
     "test": "turbo test",
     "update": "pnpm update --recursive --latest \"!eslint\" \"!dargs\""
   },
@@ -13,7 +14,7 @@
     "@types/node": "^20.14.2",
     "eslint": "8.57.0",
     "eslint-config-distube": "^1.7.0",
-    "prettier": "^3.3.1",
+    "prettier": "^3.3.2",
     "tsup": "^8.1.0",
     "turbo": "^2.0.3"
   },

@@ -10,10 +10,10 @@
   "devDependencies": {
     "@types/node": "^20.14.2",
     "discord.js": "^14.15.3",
-    "distube": "^5.0.1",
+    "distube": "^5.0.2",
     "eslint": "^8.57.0",
     "eslint-config-distube": "^1.7.0",
-    "prettier": "^3.3.1",
+    "prettier": "^3.3.2",
     "tslib": "^2.6.3",
     "tsup": "^8.1.0",
     "typescript": "^5.4.5"
@@ -58,13 +58,9 @@
     "prepack": "pnpm run build"
   },
   "typings": "./dist/index.d.ts",
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
   "dependencies": {
     "@distube/ytdl-core": "^4.13.4",
     "@distube/ytpl": "^1.2.1",
-    "@distube/ytsr": "^2.0.0"
+    "@distube/ytsr": "^2.0.4"
   }
 }
