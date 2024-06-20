@@ -19,7 +19,7 @@ export class DeezerPlugin extends InfoExtractorPlugin {
     return true;
   }
 
-  async resolve<T>(url: string, { member, metadata }: ResolveOptions<T>): Promise<Song<T> | Playlist<T>> {
+  async resolve<T>(url: string, options: ResolveOptions<T>): Promise<Song<T> | Playlist<T>> {
     const { type, id } = parseURL(url);
     if (!type || !id) throw new DisTubeError("DEEZER_PLUGIN_INVALID_URL", `Invalid Deezer url: ${url}`);
     const api = type === "track" ? getTrack(id) : type === "album" ? getAlbum(id) : getPlaylist(id);
@@ -44,7 +44,7 @@ export class DeezerPlugin extends InfoExtractorPlugin {
           },
           thumbnail: data.album.cover_xl || data.album.cover_big || data.album.cover_medium || data.album.cover,
         },
-        { member, metadata },
+        options,
       );
     }
     return new Playlist(
@@ -64,6 +64,7 @@ export class DeezerPlugin extends InfoExtractorPlugin {
                 plugin: this,
                 source: "deezer",
                 playFromSource: false,
+                id: song.id.toString(),
                 url: song.link,
                 name: song.title,
                 uploader: {
@@ -71,11 +72,11 @@ export class DeezerPlugin extends InfoExtractorPlugin {
                 },
                 thumbnail: song.album.cover_xl || song.album.cover_big || song.album.cover_medium || song.album.cover,
               },
-              { member, metadata },
+              options,
             ),
         ),
       },
-      { member, metadata },
+      options,
     );
   }
 

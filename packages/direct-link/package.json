@@ -1,21 +1,21 @@
 {
   "name": "@distube/direct-link",
-  "version": "1.0.0",
-  "author": "Skick",
+  "version": "1.0.1",
+  "author": "Skick (https://github.com/skick1234)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/distubejs/extractor-plugins.git"
   },
   "main": "./dist/index.js",
   "dependencies": {
-    "distube": "^5.0.1",
     "undici": "^6.18.2"
   },
   "devDependencies": {
     "discord.js": "^14.15.3",
+    "distube": "^5.0.2",
     "eslint": "^8.57.0",
     "eslint-config-distube": "^1.7.0",
-    "prettier": "^3.3.1",
+    "prettier": "^3.3.2",
     "tslib": "^2.6.3",
     "tsup": "^8.1.0",
     "typescript": "^5.4.5"
@@ -61,9 +61,5 @@
     "type": "tsc --noEmit",
     "prepack": "pnpm run build"
   },
-  "typings": "./dist/index.d.ts",
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  }
+  "typings": "./dist/index.d.ts"
 }

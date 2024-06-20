@@ -30,6 +30,9 @@
     "lint": {
       "dependsOn": ["^lint"]
     },
+    "type": {
+      "dependsOn": ["^type"]
+    },
     "release": {
       "dependsOn": ["^build"],
       "inputs": ["package.json"],

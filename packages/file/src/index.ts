@@ -1,4 +1,5 @@
-import { existsSync } from "fs";
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { DisTubeError, PlayableExtractorPlugin, type ResolveOptions, Song } from "distube";
 
 export class FilePlugin extends PlayableExtractorPlugin {
@@ -12,10 +13,10 @@ export class FilePlugin extends PlayableExtractorPlugin {
 
   resolve<T>(url: string, options: ResolveOptions<T> = {}): Song<T> {
     const u = new URL(url);
-    const name = u.pathname.split("/").pop() || u.href;
-    const path = u.hostname + u.pathname;
+    const path = fileURLToPath(u);
+    const name = path.match(/[^/\\]*$/)?.[0] ?? path;
     if (!existsSync(path)) throw new DisTubeError("FILE_NOT_FOUND", `File not found: ${path}`);
-    return new Song({ name, url, source: "file", playFromSource: true, plugin: this }, options);
+    return new Song({ name, url, source: "file", playFromSource: true, plugin: this, id: path }, options);
   }
 
   getStreamURL(song: Song) {

@@ -69,6 +69,7 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
           uploader: {
             name: data.artists.map(a => a.name).join(", "),
           },
+          duration: data.duration / 1000,
         },
         options,
       );
@@ -85,6 +86,7 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
               {
                 plugin: this,
                 source: "spotify",
+                id: t.id,
                 playFromSource: false,
                 name: t.name,
                 thumbnail: t.thumbnail,
@@ -92,6 +94,7 @@ export class SpotifyPlugin extends InfoExtractorPlugin {
                   name: t.artists.map(a => a.name).join(", "),
                 },
                 url: `https://open.spotify.com/track/${t.id}`,
+                duration: t.duration / 1000,
               },
               options,
             ),
