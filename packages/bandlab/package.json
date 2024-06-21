@@ -1,0 +1,65 @@
+{
+  "name": "@distube/bandlab",
+  "version": "0.0.1",
+  "author": "Skick (https://github.com/skick1234)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/distubejs/extractor-plugins.git"
+  },
+  "main": "./dist/index.js",
+  "devDependencies": {
+    "@types/node": "^20.14.7",
+    "discord.js": "^14.15.3",
+    "distube": "^5.0.2",
+    "eslint": "^8.57.0",
+    "eslint-config-distube": "^1.7.0",
+    "prettier": "^3.3.2",
+    "tslib": "^2.6.3",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.2"
+  },
+  "exports": "./dist/index.js",
+  "bugs": {
+    "url": "https://github.com/distubejs/extractor-plugins/issues"
+  },
+  "description": "A DisTube playable extractor plugin using bandlab.",
+  "directories": {
+    "lib": "src"
+  },
+  "files": [
+    "dist",
+    "script"
+  ],
+  "funding": "https://github.com/skick1234/DisTube?sponsor",
+  "homepage": "https://github.com/distubejs/extractor-plugins/tree/main/packages/bandlab#readme",
+  "keywords": [
+    "distube",
+    "plugin",
+    "discord",
+    "music"
+  ],
+  "license": "MIT",
+  "nano-staged": {
+    "*.ts": [
+      "prettier --write",
+      "eslint"
+    ],
+    "*.{json,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "peerDependencies": {
+    "distube": "5"
+  },
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,ts,json,yml,yaml,md}\"",
+    "lint": "eslint .",
+    "build": "tsup",
+    "type": "tsc --noEmit",
+    "prepack": "pnpm run build"
+  },
+  "typings": "./dist/index.d.ts",
+  "dependencies": {
+    "undici": "^6.19.2"
+  }
+}
