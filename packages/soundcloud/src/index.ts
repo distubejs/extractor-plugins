@@ -170,14 +170,17 @@ class SoundCloudSong<T> extends Song<T> {
 
 class SoundCloudPlaylist<T> extends Playlist<T> {
   constructor(plugin: SoundCloudPlugin, info: SoundcloudPlaylistV2, options: ResolveOptions<T> = {}) {
-    super({
-      source: "soundcloud",
-      id: info.id.toString(),
-      name: info.title,
-      url: info.permalink_url,
-      thumbnail: info.artwork_url ?? undefined,
-      songs: info.tracks.map(s => new SoundCloudSong(plugin, s, options)),
-    });
+    super(
+      {
+        source: "soundcloud",
+        id: info.id.toString(),
+        name: info.title,
+        url: info.permalink_url,
+        thumbnail: info.artwork_url ?? undefined,
+        songs: info.tracks.map(s => new SoundCloudSong(plugin, s, options)),
+      },
+      options,
+    );
   }
 }
 
