@@ -79,9 +79,9 @@ export class YouTubePlugin extends ExtractorPlugin {
     return format.url;
   }
   async getRelatedSongs(song: YouTubeSong): Promise<Song[]> {
-    return (song.related ? song.related : (await ytdl.getBasicInfo(song.url!, this.ytdlOptions)).related_videos).map(
-      r => new YouTubeRelatedSong(this, r),
-    );
+    return (song.related ? song.related : (await ytdl.getBasicInfo(song.url!, this.ytdlOptions)).related_videos)
+      .filter(r => r.id)
+      .map(r => new YouTubeRelatedSong(this, r));
   }
   async searchSong<T>(query: string, options: ResolveOptions<T>): Promise<Song<T> | null> {
     const result = await this.search(query, { type: SearchResultType.VIDEO, limit: 1 });
@@ -226,6 +226,7 @@ export class YouTubePlaylist<T> extends Playlist<T> {
 
 export class YouTubeRelatedSong extends Song {
   constructor(plugin: YouTubePlugin, info: ytdl.relatedVideo) {
+    if (!info.id) throw new DisTubeError("CANNOT_RESOLVE_SONG", info);
     super({
       plugin,
       source: "youtube",

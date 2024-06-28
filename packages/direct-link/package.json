@@ -7,8 +7,22 @@
     "url": "git+https://github.com/distubejs/extractor-plugins.git"
   },
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
   "dependencies": {
-    "undici": "^6.18.2"
+    "undici": "^6.19.2"
   },
   "devDependencies": {
     "discord.js": "^14.15.3",
@@ -18,9 +32,8 @@
     "prettier": "^3.3.2",
     "tslib": "^2.6.3",
     "tsup": "^8.1.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.2"
   },
-  "exports": "./dist/index.js",
   "bugs": {
     "url": "https://github.com/distubejs/extractor-plugins/issues"
   },
