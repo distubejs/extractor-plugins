@@ -1,4 +1,4 @@
-import SoundCloud from "soundcloud.ts";
+import { Soundcloud } from "soundcloud.ts";
 import { DisTubeError, ExtractorPlugin, Playlist, Song, checkInvalidKey } from "distube";
 import type { ResolveOptions } from "distube";
 import type { SoundcloudPlaylistV2, SoundcloudTrackV2 } from "soundcloud.ts";
@@ -16,7 +16,7 @@ export interface SoundCloudPluginOptions {
 }
 
 export class SoundCloudPlugin extends ExtractorPlugin {
-  soundcloud: SoundCloud;
+  soundcloud: Soundcloud;
   constructor(options: SoundCloudPluginOptions = {}) {
     super();
     if (typeof options !== "object" || Array.isArray(options)) {
@@ -29,7 +29,7 @@ export class SoundCloudPlugin extends ExtractorPlugin {
     if (options.oauthToken && typeof options.oauthToken !== "string") {
       throw new DisTubeError("INVALID_TYPE", "string", options.oauthToken, "oauthToken");
     }
-    this.soundcloud = new SoundCloud({
+    this.soundcloud = new Soundcloud({
       clientId: options.clientId,
       oauthToken: options.oauthToken,
     });
