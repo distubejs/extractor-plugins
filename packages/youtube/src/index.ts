@@ -15,9 +15,6 @@ export type YouTubePluginOptions = {
   ytdlOptions?: ytdl.getInfoOptions;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-const playError = require("@distube/ytdl-core/lib/utils").playError;
-
 export class YouTubePlugin extends ExtractorPlugin {
   #cookies?: ytdl.Cookie[];
   cookies?: ytdl.Cookie[];
@@ -62,8 +59,10 @@ export class YouTubePlugin extends ExtractorPlugin {
     if (!song.url || !ytdl.validateURL(song.url)) throw new DisTubeError("CANNOT_RESOLVE_SONG", song);
     const info = await ytdl.getInfo(song.url, this.ytdlOptions);
     if (!info.formats?.length) throw new DisTubeError("UNAVAILABLE_VIDEO");
-    const err = playError(info.player_response, ["UNPLAYABLE", "LIVE_STREAM_OFFLINE", "LOGIN_REQUIRED"]);
-    if (err) throw err;
+    const format = info.formats
+      .filter(f => f.hasAudio && (!newSong.isLive || f.isHLS))
+      .sort((a, b) => Number(b.audioBitrate) - Number(a.audioBitrate) || Number(a.bitrate) - Number(b.bitrate))[0];
+    if (!format) throw new DisTubeError("UNPLAYABLE_FORMATS");
     const newSong = new YouTubeSong(this, info, {});
     song.ageRestricted = newSong.ageRestricted;
     song.views = newSong.views;
@@ -72,10 +71,6 @@ export class YouTubePlugin extends ExtractorPlugin {
     song.related = newSong.related;
     song.chapters = newSong.chapters;
     song.storyboards = newSong.storyboards;
-    const format = info.formats
-      .filter(f => f.hasAudio && (newSong.duration < 10 * 60 || f.hasVideo) && (!newSong.isLive || f.isHLS))
-      .sort((a, b) => Number(b.audioBitrate) - Number(a.audioBitrate) || Number(a.bitrate) - Number(b.bitrate))[0];
-    if (!format) throw new DisTubeError("UNPLAYABLE_FORMATS");
     return format.url;
   }
   async getRelatedSongs(song: YouTubeSong): Promise<Song[]> {
