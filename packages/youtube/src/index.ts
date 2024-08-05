@@ -59,10 +59,6 @@ export class YouTubePlugin extends ExtractorPlugin {
     if (!song.url || !ytdl.validateURL(song.url)) throw new DisTubeError("CANNOT_RESOLVE_SONG", song);
     const info = await ytdl.getInfo(song.url, this.ytdlOptions);
     if (!info.formats?.length) throw new DisTubeError("UNAVAILABLE_VIDEO");
-    const format = info.formats
-      .filter(f => f.hasAudio && (!newSong.isLive || f.isHLS))
-      .sort((a, b) => Number(b.audioBitrate) - Number(a.audioBitrate) || Number(a.bitrate) - Number(b.bitrate))[0];
-    if (!format) throw new DisTubeError("UNPLAYABLE_FORMATS");
     const newSong = new YouTubeSong(this, info, {});
     song.ageRestricted = newSong.ageRestricted;
     song.views = newSong.views;
@@ -71,6 +67,10 @@ export class YouTubePlugin extends ExtractorPlugin {
     song.related = newSong.related;
     song.chapters = newSong.chapters;
     song.storyboards = newSong.storyboards;
+    const format = info.formats
+      .filter(f => f.hasAudio && (!newSong.isLive || f.isHLS))
+      .sort((a, b) => Number(b.audioBitrate) - Number(a.audioBitrate) || Number(a.bitrate) - Number(b.bitrate))[0];
+    if (!format) throw new DisTubeError("UNPLAYABLE_FORMATS");
     return format.url;
   }
   async getRelatedSongs(song: YouTubeSong): Promise<Song[]> {
