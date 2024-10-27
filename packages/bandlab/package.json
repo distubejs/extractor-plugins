@@ -1,7 +1,10 @@
 {
   "name": "@distube/bandlab",
-  "version": "0.0.1",
-  "author": "Skick (https://github.com/skick1234)",
+  "version": "1.0.0",
+  "author": "Lakhindar Pal (https://github.com/LakhindarPal)",
+  "contributors": [
+    "Skick (https://github.com/skick1234)"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/distubejs/extractor-plugins.git"
@@ -22,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/distubejs/extractor-plugins/issues"
   },
-  "description": "A DisTube playable extractor plugin using bandlab.",
+  "description": "A DisTube playable extractor plugin for supporting Bandlab.",
   "directories": {
     "lib": "src"
   },
