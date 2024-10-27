@@ -8,15 +8,15 @@
   },
   "main": "./dist/index.js",
   "devDependencies": {
-    "@types/node": "^20.14.7",
-    "discord.js": "^14.15.3",
+    "@types/node": "^22.8.1",
+    "discord.js": "^14.16.3",
     "distube": "^5.0.2",
     "eslint": "^8.57.0",
-    "eslint-config-distube": "^1.7.0",
-    "prettier": "^3.3.2",
-    "tslib": "^2.6.3",
-    "tsup": "^8.1.0",
-    "typescript": "^5.5.2"
+    "eslint-config-distube": "^1.7.1",
+    "prettier": "^3.3.3",
+    "tslib": "^2.8.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3"
   },
   "exports": "./dist/index.js",
   "bugs": {
@@ -60,6 +60,6 @@
   },
   "typings": "./dist/index.d.ts",
   "dependencies": {
-    "undici": "^6.19.2"
+    "undici": "^6.20.1"
   }
 }

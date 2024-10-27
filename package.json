@@ -11,12 +11,12 @@
     "update": "pnpm update --recursive --latest \"!eslint\" \"!dargs\""
   },
   "devDependencies": {
-    "@types/node": "^22.1.0",
+    "@types/node": "^22.8.1",
     "eslint": "8.57.0",
     "eslint-config-distube": "^1.7.1",
     "prettier": "^3.3.3",
-    "tsup": "^8.2.4",
-    "turbo": "^2.0.11"
+    "tsup": "^8.3.5",
+    "turbo": "^2.2.3"
   },
   "engines": {
     "node": ">=18"
