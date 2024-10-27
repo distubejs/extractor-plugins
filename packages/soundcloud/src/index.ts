@@ -1,7 +1,7 @@
 import { Soundcloud } from "soundcloud.ts";
 import { DisTubeError, ExtractorPlugin, Playlist, Song, checkInvalidKey } from "distube";
 import type { ResolveOptions } from "distube";
-import type { SoundcloudPlaylistV2, SoundcloudTrackV2 } from "soundcloud.ts";
+import type { SoundcloudPlaylist, SoundcloudTrack } from "soundcloud.ts";
 
 type Falsy = undefined | null | false | 0 | "";
 const isTruthy = <T>(x: T | Falsy): x is T => Boolean(x);
@@ -68,14 +68,14 @@ export class SoundCloudPlugin extends ExtractorPlugin {
 
     switch (type) {
       case SearchType.Track: {
-        const data = await this.soundcloud.tracks.searchV2({ q: query, limit });
+        const data = await this.soundcloud.tracks.search({ q: query, limit });
         if (!data?.collection?.length) {
           throw new DisTubeError("SOUNDCLOUD_PLUGIN_NO_RESULT", `Cannot find any "${query}" ${type} on SoundCloud!`);
         }
         return data.collection.map(t => new SoundCloudSong(this, t, options));
       }
       case SearchType.Playlist: {
-        const data = await this.soundcloud.playlists.searchV2({ q: query, limit });
+        const data = await this.soundcloud.playlists.search({ q: query, limit });
         const playlists = data.collection;
         return (
           await Promise.all(
@@ -101,7 +101,7 @@ export class SoundCloudPlugin extends ExtractorPlugin {
     });
     const opt = { ...options, source: "soundcloud" };
     url = url.replace(/:\/\/(m|www)\./g, "://");
-    const data = await this.soundcloud.resolve.getV2(url, true).catch(e => {
+    const data = await this.soundcloud.resolve.get(url, true).catch(e => {
       throw new DisTubeError("SOUNDCLOUD_PLUGIN_RESOLVE_ERROR", e.message);
     });
     if (!data || !["track", "playlist"].includes(data.kind)) {
@@ -117,7 +117,7 @@ export class SoundCloudPlugin extends ExtractorPlugin {
     if (!song.url) {
       throw new DisTubeError("SOUNDCLOUD_PLUGIN_INVALID_SONG", "Cannot get related songs from invalid song.");
     }
-    const related = await this.soundcloud.tracks.relatedV2(song.url, 10);
+    const related = await this.soundcloud.tracks.related(song.url, 10);
     return related.filter(t => t.title).map(t => new SoundCloudSong(this, t));
   }
 
@@ -142,7 +142,7 @@ export class SoundCloudPlugin extends ExtractorPlugin {
 }
 
 class SoundCloudSong<T> extends Song<T> {
-  constructor(plugin: SoundCloudPlugin, info: SoundcloudTrackV2, options: ResolveOptions<T> = {}) {
+  constructor(plugin: SoundCloudPlugin, info: SoundcloudTrack, options: ResolveOptions<T> = {}) {
     super(
       {
         plugin,
@@ -167,7 +167,7 @@ class SoundCloudSong<T> extends Song<T> {
 }
 
 class SoundCloudPlaylist<T> extends Playlist<T> {
-  constructor(plugin: SoundCloudPlugin, info: SoundcloudPlaylistV2, options: ResolveOptions<T> = {}) {
+  constructor(plugin: SoundCloudPlugin, info: SoundcloudPlaylist, options: ResolveOptions<T> = {}) {
     super(
       {
         source: "soundcloud",
