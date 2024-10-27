@@ -29,10 +29,8 @@ export class SoundCloudPlugin extends ExtractorPlugin {
     if (options.oauthToken && typeof options.oauthToken !== "string") {
       throw new DisTubeError("INVALID_TYPE", "string", options.oauthToken, "oauthToken");
     }
-    this.soundcloud = new Soundcloud({
-      clientId: options.clientId,
-      oauthToken: options.oauthToken,
-    });
+
+    this.soundcloud = new Soundcloud(options.clientId, options.oauthToken);
   }
   search<T>(query: string, type?: SearchType.Track, limit?: number, options?: ResolveOptions<T>): Promise<Song<T>[]>;
   search<T>(
