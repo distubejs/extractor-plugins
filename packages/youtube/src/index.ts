@@ -15,9 +15,6 @@ export type YouTubePluginOptions = {
   ytdlOptions?: ytdl.getInfoOptions;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-const playError = require("@distube/ytdl-core/lib/utils").playError;
-
 export class YouTubePlugin extends ExtractorPlugin {
   #cookies?: ytdl.Cookie[];
   cookies?: ytdl.Cookie[];
@@ -62,8 +59,6 @@ export class YouTubePlugin extends ExtractorPlugin {
     if (!song.url || !ytdl.validateURL(song.url)) throw new DisTubeError("CANNOT_RESOLVE_SONG", song);
     const info = await ytdl.getInfo(song.url, this.ytdlOptions);
     if (!info.formats?.length) throw new DisTubeError("UNAVAILABLE_VIDEO");
-    const err = playError(info.player_response, ["UNPLAYABLE", "LIVE_STREAM_OFFLINE", "LOGIN_REQUIRED"]);
-    if (err) throw err;
     const newSong = new YouTubeSong(this, info, {});
     song.ageRestricted = newSong.ageRestricted;
     song.views = newSong.views;
@@ -73,15 +68,15 @@ export class YouTubePlugin extends ExtractorPlugin {
     song.chapters = newSong.chapters;
     song.storyboards = newSong.storyboards;
     const format = info.formats
-      .filter(f => f.hasAudio && (newSong.duration < 10 * 60 || f.hasVideo) && (!newSong.isLive || f.isHLS))
+      .filter(f => f.hasAudio && (!newSong.isLive || f.isHLS))
       .sort((a, b) => Number(b.audioBitrate) - Number(a.audioBitrate) || Number(a.bitrate) - Number(b.bitrate))[0];
     if (!format) throw new DisTubeError("UNPLAYABLE_FORMATS");
     return format.url;
   }
   async getRelatedSongs(song: YouTubeSong): Promise<Song[]> {
-    return (song.related ? song.related : (await ytdl.getBasicInfo(song.url!, this.ytdlOptions)).related_videos).map(
-      r => new YouTubeRelatedSong(this, r),
-    );
+    return (song.related ? song.related : (await ytdl.getBasicInfo(song.url!, this.ytdlOptions)).related_videos)
+      .filter(r => r.id)
+      .map(r => new YouTubeRelatedSong(this, r));
   }
   async searchSong<T>(query: string, options: ResolveOptions<T>): Promise<Song<T> | null> {
     const result = await this.search(query, { type: SearchResultType.VIDEO, limit: 1 });
@@ -226,6 +221,7 @@ export class YouTubePlaylist<T> extends Playlist<T> {
 
 export class YouTubeRelatedSong extends Song {
   constructor(plugin: YouTubePlugin, info: ytdl.relatedVideo) {
+    if (!info.id) throw new DisTubeError("CANNOT_RESOLVE_SONG", info);
     super({
       plugin,
       source: "youtube",

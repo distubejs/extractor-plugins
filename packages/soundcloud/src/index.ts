@@ -1,4 +1,4 @@
-import SoundCloud from "soundcloud.ts";
+import { Soundcloud } from "soundcloud.ts";
 import { DisTubeError, ExtractorPlugin, Playlist, Song, checkInvalidKey } from "distube";
 import type { ResolveOptions } from "distube";
 import type { SoundcloudPlaylistV2, SoundcloudTrackV2 } from "soundcloud.ts";
@@ -16,7 +16,7 @@ export interface SoundCloudPluginOptions {
 }
 
 export class SoundCloudPlugin extends ExtractorPlugin {
-  soundcloud: SoundCloud;
+  soundcloud: Soundcloud;
   constructor(options: SoundCloudPluginOptions = {}) {
     super();
     if (typeof options !== "object" || Array.isArray(options)) {
@@ -29,10 +29,8 @@ export class SoundCloudPlugin extends ExtractorPlugin {
     if (options.oauthToken && typeof options.oauthToken !== "string") {
       throw new DisTubeError("INVALID_TYPE", "string", options.oauthToken, "oauthToken");
     }
-    this.soundcloud = new SoundCloud({
-      clientId: options.clientId,
-      oauthToken: options.oauthToken,
-    });
+
+    this.soundcloud = new Soundcloud(options.clientId, options.oauthToken);
   }
   search<T>(query: string, type?: SearchType.Track, limit?: number, options?: ResolveOptions<T>): Promise<Song<T>[]>;
   search<T>(
@@ -170,14 +168,17 @@ class SoundCloudSong<T> extends Song<T> {
 
 class SoundCloudPlaylist<T> extends Playlist<T> {
   constructor(plugin: SoundCloudPlugin, info: SoundcloudPlaylistV2, options: ResolveOptions<T> = {}) {
-    super({
-      source: "soundcloud",
-      id: info.id.toString(),
-      name: info.title,
-      url: info.permalink_url,
-      thumbnail: info.artwork_url ?? undefined,
-      songs: info.tracks.map(s => new SoundCloudSong(plugin, s, options)),
-    });
+    super(
+      {
+        source: "soundcloud",
+        id: info.id.toString(),
+        name: info.title,
+        url: info.permalink_url,
+        thumbnail: info.artwork_url ?? undefined,
+        songs: info.tracks.map(s => new SoundCloudSong(plugin, s, options)),
+      },
+      options,
+    );
   }
 }
 

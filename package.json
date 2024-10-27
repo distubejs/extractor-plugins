@@ -11,15 +11,15 @@
     "update": "pnpm update --recursive --latest \"!eslint\" \"!dargs\""
   },
   "devDependencies": {
-    "@types/node": "^20.14.2",
+    "@types/node": "^22.1.0",
     "eslint": "8.57.0",
-    "eslint-config-distube": "^1.7.0",
-    "prettier": "^3.3.2",
-    "tsup": "^8.1.0",
-    "turbo": "^2.0.3"
+    "eslint-config-distube": "^1.7.1",
+    "prettier": "^3.3.3",
+    "tsup": "^8.2.4",
+    "turbo": "^2.0.11"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "pnpm@9.1.4"
+  "packageManager": "pnpm@9.4.0"
 }

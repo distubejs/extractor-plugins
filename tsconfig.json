@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "lib": ["ESNext"],
-    "target": "ES2021",
+    "target": "ESNext",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": true,
